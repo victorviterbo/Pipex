@@ -6,7 +6,7 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 16:42:05 by vviterbo          #+#    #+#             */
-/*   Updated: 2024/12/10 17:54:52 by vviterbo         ###   ########.fr       */
+/*   Updated: 2024/12/15 19:28:58 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,11 @@ int	main(int argc, char *argv[])
 	int		pipe_fd[2];
 	pid_t	pid;
 	char	buf;
+	int		fin;
+	int		fout;
 
+	fin = open(argv[1]);
+	fout = open(argv[argc - 1]);
 	ft_init_pipe(pipe_fd);
 	pid = ft_fork();
 	if (pid > 0)

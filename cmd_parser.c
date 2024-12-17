@@ -1,27 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parent_process.c                                   :+:      :+:    :+:   */
+/*   cmd_parser.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/10 18:01:14 by vviterbo          #+#    #+#             */
-/*   Updated: 2024/12/15 19:46:30 by vviterbo         ###   ########.fr       */
+/*   Created: 2024/12/15 19:45:46 by vviterbo          #+#    #+#             */
+/*   Updated: 2024/12/15 20:05:05 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	parent_process(int fd, char **cmds);
-char	*parse_file(int fd);
+char	**cmd_parser(char	*cmd);
 
-void	parent_process(int fd, char **cmds)
+char	**cmd_parser(char	*cmd)
 {
-	char	*fcontent;
-	char	**args;
+	size_t	i;
+	size_t	j;
+	bool	esc_char;
+	bool	parse_as_bloc;
 
-	fcontent = ft_readfile(fd);
-	*cmds = ft_strjoin_ip("/bin/", *cmds, 2);
-	args = ft_calloc(2, sizeof(char));
-	//execve();
+	i = 0;
+	esc_char = false;
+	parse_as_bloc = false;
+	while (cmd[i])
+	{
+		if (cmd[i] == '\\')
+			esc_char = true;
+		else if (cmd[i] == '"' || cmd[i] == "'")
+			parse_as_bloc = !parse_as_bloc;
+		else 
+	}
+}
+
+size_t	go_to_next_space(char *cmd, size_t i)
+{
+	while (cmd[i] && cmd[i] != '"' &&w)
 }
