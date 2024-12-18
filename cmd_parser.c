@@ -6,7 +6,7 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 19:45:46 by vviterbo          #+#    #+#             */
-/*   Updated: 2024/12/15 20:05:05 by vviterbo         ###   ########.fr       */
+/*   Updated: 2024/12/17 11:03:18 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,28 @@ char	**cmd_parser(char	*cmd)
 	size_t	i;
 	size_t	j;
 	bool	esc_char;
-	bool	parse_as_bloc;
 
 	i = 0;
+	j = 0;
 	esc_char = false;
 	parse_as_bloc = false;
 	while (cmd[i])
 	{
 		if (cmd[i] == '\\')
 			esc_char = true;
-		else if (cmd[i] == '"' || cmd[i] == "'")
-			parse_as_bloc = !parse_as_bloc;
-		else 
+		else if (cmd[i] == "'" && !esc_char)
+			j = go_to_next(cmd, i, "'");
+		else if (cmd[i] == '"' && !esc_char)
+			j = go_to_next(cmd, i, '"');
 	}
 }
 
-size_t	go_to_next_space(char *cmd, size_t i)
+size_t	go_to_next(char *cmd, size_t i, char c)
 {
-	while (cmd[i] && cmd[i] != '"' &&w)
+	bool	esc_char;
+
+	esc_char = false;
+	while (cmd[i] && cmd[i] != c && (i || cmd[i - 1] ! '\\'))
+		i++;
+	return (i);
 }
