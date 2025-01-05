@@ -1,0 +1,13 @@
+Makefile
+a.out
+cmd_parser.c
+file1.txt
+libft
+lonnnnngfile.txt
+outfile
+pipex
+pipex.c
+pipex.h
+receiver_process.c
+sender_process.c
+test.txt

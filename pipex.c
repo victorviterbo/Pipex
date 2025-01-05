@@ -6,7 +6,7 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 16:42:05 by vviterbo          #+#    #+#             */
-/*   Updated: 2024/12/15 19:28:58 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/01/05 16:28:42 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,28 +15,32 @@
 int		*ft_init_pipe(int fds[]);
 pid_t	ft_fork(void);
 
-int	main(int argc, char *argv[])
+int	main(int argc, char *argv[], char *envp[])
 {
 	int		pipe_fd[2];
 	pid_t	pid;
-	char	buf;
-	int		fin;
-	int		fout;
 
-	fin = open(argv[1]);
-	fout = open(argv[argc - 1]);
 	ft_init_pipe(pipe_fd);
 	pid = ft_fork();
-	if (pid > 0)
+	(void)argc;
+	if (pid == 0)
 	{
 		close(pipe_fd[READ_END]);
-		while (read(pipe_fd[0], &buf, 1) > 0)
-		{
-			write(STDOUT_FILENO, &buf, 1);
-		}
-		close(pipe_fd[0]);
-		exit(EXIT_SUCCESS);
+		sender_process(argv[1], pipe_fd, argv[2], envp);
 	}
+	else
+	{
+		pid = ft_fork();
+		if (pid == 0)
+		{
+			close(pipe_fd[WRITE_END]);
+			receiver_process(argv[4], pipe_fd, argv[3], envp);
+		}
+	}
+	close(pipe_fd[READ_END]);
+	close(pipe_fd[WRITE_END]);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
 }
 
 int	*ft_init_pipe(int fds[])

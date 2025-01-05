@@ -6,17 +6,16 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 19:45:46 by vviterbo          #+#    #+#             */
-/*   Updated: 2024/12/22 09:21:43 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/01/05 13:56:06 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-char	**cmd_parser(char *cmd);
+char	**ft_cmd_parser(char *cmd);
 size_t	go_to_next(char *cmd, size_t i, char c);
-char	**ft_array_append(char **array, char *str);
 char	*ft_coalesce_char(char *str, char c, bool esc, bool inplace);
-
+void	print_array(char **array);
 
 void	print_array(char **array)
 {
@@ -30,10 +29,7 @@ void	print_array(char **array)
 	}
 }
 
-
-
-
-char	**cmd_parser(char	*cmd)
+char	**ft_cmd_parser(char *cmd)
 {
 	size_t	i;
 	size_t	j;
@@ -57,13 +53,14 @@ char	**cmd_parser(char	*cmd)
 			i = go_to_next(cmd, i, '"');
 		else if (cmd[i] == ' ' && !esc_char)
 		{
-			spl_args = ft_array_append(spl_args, ft_substr(cmd, j, i - j));
+			spl_args = ft_array_append(spl_args, ft_substr(cmd, j, i - j),
+					false);
 			j = i + 1;
 		}
 		i++;
 	}
 	if (i != j)
-		spl_args = ft_array_append(spl_args, ft_substr(cmd, j, i - j));
+		spl_args = ft_array_append(spl_args, ft_substr(cmd, j, i - j), false);
 	return (spl_args);
 }
 
@@ -73,24 +70,6 @@ size_t	go_to_next(char *cmd, size_t i, char c)
 	while (cmd[i] && cmd[i] != c && (!i || cmd[i - 1] != '\\'))
 		i++;
 	return (i);
-}
-
-char	**ft_array_append(char **array, char *str)
-{
-	size_t	i;
-	char	**concatenated;
-
-	concatenated = ft_calloc(ft_arrlen(array) + 2, sizeof(char *));
-	i = 0;
-	while (array[i])
-	{
-		concatenated[i] = array[i];
-		i++;
-	}
-	concatenated[i] = str;
-	concatenated[i + 1] = NULL;
-	free(array);
-	return (concatenated);
 }
 
 char	*ft_coalesce_char(char *str, char c, bool esc, bool inplace)
