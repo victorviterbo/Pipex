@@ -6,7 +6,7 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 19:45:46 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/01/07 23:46:20 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/01/07 23:47:14 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	**ft_cmd_parser(char *cmd, bool esc)
 	j = 0;
 	cmd = ft_coalesce_char(cmd, ' ', true);
 	spl_args = ft_calloc(1, sizeof(char *));
-	while (0 < i && cmd[i])
+	while (0 <= i && cmd[i])
 	{
 		i += 2 * (cmd[i] == '\\' && esc);
 		if (cmd[i] == '\'' || cmd[i] == '"')
