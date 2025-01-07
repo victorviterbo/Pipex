@@ -6,7 +6,7 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 18:01:14 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/01/07 18:18:42 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/01/07 18:34:01 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	sender_process(char *infname, int pipe_fd[], char *cmd, char **envp)
 	if (!executable)
 		ft_perror_exit("Sender process cannot find executable");
 	fd = open(infname, O_RDONLY);
-	if (!fd)
+	if (fd < 0)
 		ft_perror_exit("Sender open failed input file");
 	if (dup2(pipe_fd[WRITE_END], STDOUT_FILENO) == -1)
 		ft_perror_exit("Sender dup2 failed on pipe");

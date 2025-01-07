@@ -6,30 +6,16 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 19:45:46 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/01/07 18:17:45 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/01/07 20:16:39 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
+char	*find_execpath(char *exec, char *env[]);
 char	**ft_cmd_parser(char *cmd);
 size_t	go_to_next(char *cmd, size_t i, char c);
 char	*ft_coalesce_char(char *str, char c, bool esc, bool inplace);
-void	print_array(char **array);
-char	*find_execpath(char *exec, char *env[]);
-void	ft_perror_exit(const char *message);
-
-void	print_array(char **array)
-{
-	int	i;
-
-	i = 0;
-	while (array[i])
-	{
-		ft_printf("%i : >%s<\n", i, array[i]);
-		i++;
-	}
-}
 
 char	*find_execpath(char *exec, char *envp[])
 {
@@ -138,8 +124,3 @@ char	*ft_coalesce_char(char *str, char c, bool esc, bool inplace)
 	return (coalesced);
 }
 
-void	ft_perror_exit(const char *message)
-{
-	perror(message);
-	exit(EXIT_FAILURE);
-}
