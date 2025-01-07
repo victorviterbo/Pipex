@@ -6,7 +6,7 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 16:42:05 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/01/07 18:00:59 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/01/07 18:04:39 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,9 @@ int	main(int argc, char *argv[], char *envp[])
 	close(pipe_fd[WRITE_END]);
 	close(STDIN_FILENO);
 	close(STDOUT_FILENO);
-	while (!waitpid(pid[0], &(exit_status[0]), WUNTRACED))
-		wait(&(exit_status[0]));
-	while (!waitpid(pid[1], &(exit_status[1]), WUNTRACED))
-		wait(&(exit_status[1]));
+	while (!waitpid(pid[0], &(exit_status[0]), WUNTRACED)
+		|| !waitpid(pid[1], &(exit_status[1]), WUNTRACED))
+		//WIFEXITED(exit_status[1]);
 	//WIFEXITED(exit_status[1]);
 	fprintf(stderr, "FINISHED !\n");
 	fprintf(stderr, "exit status sender : %i, receiver : %i\n", exit_status[0], exit_status[1]);
