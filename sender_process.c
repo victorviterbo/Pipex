@@ -6,7 +6,7 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 18:01:14 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/01/07 18:34:01 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/01/07 20:31:27 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	sender_process(char *infname, int pipe_fd[], char *cmd, char **envp)
 	char	**args;
 	int		fd;
 
-	args = ft_cmd_parser(cmd);
+	args = ft_cmd_parser(cmd, false);
 	if (!args)
 		ft_perror_exit("Sender process command could not be parsed");
 	executable = find_execpath(args[0], envp);

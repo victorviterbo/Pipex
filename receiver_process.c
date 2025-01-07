@@ -6,7 +6,7 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 18:01:26 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/01/07 18:33:57 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/01/07 20:30:58 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	receiver_process(char *outfname, int pipe_fd[], char *cmd, char **envp)
 	char	*executable;
 	int		fd;
 
-	args = ft_cmd_parser(cmd);
+	args = ft_cmd_parser(cmd, false);
 	if (!args)
 		ft_perror_exit("Receiver process command could not be parsed");
 	executable = find_execpath(args[0], envp);

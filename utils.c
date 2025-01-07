@@ -6,16 +6,15 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 19:45:46 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/01/07 20:16:39 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/01/07 23:46:20 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
 char	*find_execpath(char *exec, char *env[]);
-char	**ft_cmd_parser(char *cmd);
+char	**ft_cmd_parser(char *cmd, bool esc);
 size_t	go_to_next(char *cmd, size_t i, char c);
-char	*ft_coalesce_char(char *str, char c, bool esc, bool inplace);
 
 char	*find_execpath(char *exec, char *envp[])
 {
@@ -45,7 +44,7 @@ char	*find_execpath(char *exec, char *envp[])
 	return (NULL);
 }
 
-char	**ft_cmd_parser(char *cmd)
+char	**ft_cmd_parser(char *cmd, bool esc)
 {
 	size_t	i;
 	size_t	j;
@@ -53,13 +52,12 @@ char	**ft_cmd_parser(char *cmd)
 
 	i = 0;
 	j = 0;
-	cmd = ft_coalesce_char(cmd, ' ', true, false);
+	cmd = ft_coalesce_char(cmd, ' ', true);
 	spl_args = ft_calloc(1, sizeof(char *));
-	while (cmd[i])
+	while (0 < i && cmd[i])
 	{
-		if (cmd[i] == '\\')
-			i++;
-		else if (cmd[i] == '\'' || cmd[i] == '"')// || cmd[i] == '{'
+		i += 2 * (cmd[i] == '\\' && esc);
+		if (cmd[i] == '\'' || cmd[i] == '"')
 			i = go_to_next(cmd, i, cmd[i]);
 		else if (ft_iswhitespace_eq(cmd[i]))
 		{
@@ -67,12 +65,11 @@ char	**ft_cmd_parser(char *cmd)
 					false);
 			j = i + 1;
 		}
-		if (i < 0)
-			return (NULL);
 		i++;
 	}
-	if (i != j)
-		spl_args = ft_array_append(spl_args, ft_substr(cmd, j, i - j), false);
+	spl_args = ft_array_append(spl_args, ft_substr(cmd, j, i - j), false);
+	if (i < 0)
+		return (ft_free_array((void **)spl_args, ft_arrlen(spl_args)), NULL);
 	return (spl_args);
 }
 
@@ -85,42 +82,3 @@ size_t	go_to_next(char *cmd, size_t i, char c)
 		return (-1);
 	return (i);
 }
-
-char	*ft_coalesce_char(char *str, char c, bool esc, bool inplace)
-{
-	char	*coalesced;
-	size_t	i;
-	size_t	j;
-
-	coalesced = ft_calloc(1, sizeof(char *));
-	i = 0;
-	while (str[i] && str[i] == c && str[i + 1] == c)
-		i++;
-	j = i;
-	while (str[i])
-	{
-		if (str[i] == '\\' && esc && str[i + 1] == c)
-		{
-			coalesced = ft_strjoin_ip(coalesced, ft_ctoa(c), 3);
-			coalesced = ft_strjoin_ip(coalesced, "\\", 1);
-			coalesced = ft_strjoin_ip(coalesced, ft_ctoa(c), 3);
-			j = i;
-		}
-		else if (str[i] == c && (!i || (j + 1 >= i)))
-			j = i;
-		else if (str[i] == c)
-		{
-			coalesced = ft_strjoin_ip(coalesced, ft_substr(str, j, i - j), 3);
-			j = i;
-		}
-		i++;
-	}
-	if (i && str[i - 1] != c)
-		coalesced = ft_strjoin_ip(coalesced, ft_substr(str, j, i - j), 3);
-	else if (i)
-		coalesced = ft_strjoin_ip(coalesced, ft_substr(str, j, i - j), 3);
-	if (inplace)
-		free(str);
-	return (coalesced);
-}
-

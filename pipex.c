@@ -6,15 +6,11 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 16:42:05 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/01/07 20:18:49 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/01/07 23:40:44 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-
-
-#include <stdio.h>
 
 int		parent_process(int pid[], int pipe_fd[]);
 int		*ft_init_pipe(int fds[]);
@@ -60,10 +56,10 @@ int	parent_process(int pid[], int pipe_fd[])
 	waitpid_status[1] = 0;
 	while (waitpid_status[0] == 0 || waitpid_status[1] == 0)
 	{
-		waitpid_status[0] = waitpid(pid[0], &(exit_status[0]), 0);
+		waitpid_status[0] = waitpid(pid[0], &(exit_status[0]), WNOHANG);
 		if (waitpid_status[0] == -1)
 			ft_perror_exit("waitpid on sender exception in parent process");
-		waitpid_status[1] = waitpid(pid[1], &(exit_status[1]), 0);//WUNTRACED
+		waitpid_status[1] = waitpid(pid[1], &(exit_status[1]), WNOHANG);
 		if (waitpid_status[1] == -1)
 			ft_perror_exit("waitpid on receiver exception in parent process");
 	}
@@ -71,7 +67,6 @@ int	parent_process(int pid[], int pipe_fd[])
 		exit_status[1] = 1;
 	return (exit_status[1]);
 }
-
 
 int	*ft_init_pipe(int fds[])
 {

@@ -6,7 +6,7 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 16:33:24 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/01/07 20:16:49 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/01/07 20:34:51 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,7 @@ void	receiver_process(char *outfname, int pipe_fd[], char *cmd, char **envp);
 void	sender_process(char *infname, int pipe_fd[], char *cmd, char **envp);
 
 char	*find_execpath(char *exec, char *env[]);
-char	**ft_cmd_parser(char *cmd);
+char	**ft_cmd_parser(char *cmd, bool esc);
 size_t	go_to_next(char *cmd, size_t i, char c);
-char	*ft_coalesce_char(char *str, char c, bool esc, bool inplace);
 
 #endif
