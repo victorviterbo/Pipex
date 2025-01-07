@@ -6,7 +6,7 @@
 #    By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/01 12:45:22 by vviterbo          #+#    #+#              #
-#    Updated: 2025/01/05 16:26:48 by vviterbo         ###   ########.fr        #
+#    Updated: 2025/01/05 18:15:47 by vviterbo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ SRCS = pipex.c sender_process.c receiver_process.c cmd_parser.c
 
 OBJS = $(patsubst %.c, %.o, $(SRCS))
 
-CFLAGS = #-Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 
 CC = cc
 
