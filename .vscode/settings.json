@@ -1,5 +1,8 @@
 {
 	"files.associations": {
-		"random": "c"
-	}
+		"random": "c",
+		"memory": "c",
+		"utility": "c"
+	} ,
+	"editor.rulers": [80]
 }
