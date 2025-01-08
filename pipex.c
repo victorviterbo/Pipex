@@ -6,7 +6,7 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 16:42:05 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/01/08 20:42:32 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/01/08 21:26:08 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,12 @@ int	parent_process(int pid[], int pipe_fd[])
 	waitpid_status[1] = 0;
 	while (waitpid_status[0] == 0 || waitpid_status[1] == 0)
 	{
-		waitpid_status[0] = waitpid(pid[0], &(exit_status[0]), WNOHANG);
+		if (waitpid_status[0] == 0)
+			waitpid_status[0] = waitpid(pid[0], &(exit_status[0]), WNOHANG);
+		if (waitpid_status[1] == 0)
+			waitpid_status[1] = waitpid(pid[1], &(exit_status[1]), WNOHANG);
 		if (waitpid_status[0] == -1)
 			ft_perror_exit("waitpid on sender exception in parent process");
-		waitpid_status[1] = waitpid(pid[1], &(exit_status[1]), WNOHANG);
 		if (waitpid_status[1] == -1)
 			ft_perror_exit("waitpid on receiver exception in parent process");
 	}

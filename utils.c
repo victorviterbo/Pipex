@@ -6,7 +6,7 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 19:45:46 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/01/08 00:06:48 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/01/08 22:01:16 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*find_execpath(char *exec, char *env[]);
 char	**ft_cmd_parser(char *cmd, bool esc);
-size_t	go_to_next(char *cmd, size_t i, char c);
+size_t	go_to_next(char *cmd, size_t i, char c, bool esc);
 
 char	*find_execpath(char *exec, char *envp[])
 {
@@ -52,13 +52,13 @@ char	**ft_cmd_parser(char *cmd, bool esc)
 
 	i = 0;
 	j = 0;
-	cmd = ft_coalesce_char(cmd, ' ', true);
+	cmd = ft_coalesce_char(cmd, ' ', false);
 	spl_args = ft_calloc(1, sizeof(char *));
 	while (0 <= i && cmd[i])
 	{
 		i += 2 * (cmd[i] == '\\' && esc);
 		if (cmd[i] == '\'' || cmd[i] == '"')
-			i = go_to_next(cmd, i, cmd[i]);
+			i = go_to_next(cmd, i + 1, cmd[i], esc);
 		else if (ft_iswhitespace_eq(cmd[i]))
 		{
 			spl_args = ft_array_append(spl_args, ft_substr(cmd, j, i - j),
@@ -73,10 +73,9 @@ char	**ft_cmd_parser(char *cmd, bool esc)
 	return (spl_args);
 }
 
-size_t	go_to_next(char *cmd, size_t i, char c)
+size_t	go_to_next(char *cmd, size_t i, char c, bool esc)
 {
-	i++;
-	while (cmd[i] && cmd[i] != c && (!i || cmd[i - 1] != '\\'))
+	while (cmd[i] && cmd[i] != c && (!i || cmd[i - 1] != '\\' || !esc))
 		i++;
 	if (!cmd[i])
 		return (-1);
