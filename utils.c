@@ -6,7 +6,7 @@
 /*   By: vviterbo <vviterbo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 19:45:46 by vviterbo          #+#    #+#             */
-/*   Updated: 2025/01/08 22:01:16 by vviterbo         ###   ########.fr       */
+/*   Updated: 2025/03/09 13:27:17 by vviterbo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	**ft_cmd_parser(char *cmd, bool esc)
 	while (0 <= i && cmd[i])
 	{
 		i += 2 * (cmd[i] == '\\' && esc);
-		if (cmd[i] == '\'' || cmd[i] == '"')
+		if (cmd[i] == '\'' || cmd[i] == '"' || cmd[i] == '{')
 			i = go_to_next(cmd, i + 1, cmd[i], esc);
 		else if (ft_iswhitespace_eq(cmd[i]))
 		{
@@ -75,6 +75,8 @@ char	**ft_cmd_parser(char *cmd, bool esc)
 
 size_t	go_to_next(char *cmd, size_t i, char c, bool esc)
 {
+	if (c == '{')
+		c = '}';
 	while (cmd[i] && cmd[i] != c && (!i || cmd[i - 1] != '\\' || !esc))
 		i++;
 	if (!cmd[i])
