@@ -23,6 +23,7 @@ all : $(NAME)
 $(NAME) : $(SRCS)
 	@$(MAKE) -C libft/ all
 	@$(CC) $(CFLAGS) $(SRCS) -o $(NAME) -L libft/ -lft
+	@echo "$(NAME) compiled successfully"
 
 clean :
 	@$(MAKE) -C libft/ clean
