@@ -11,5 +11,6 @@ This project recreates the behavior of the shell pipeline (`|`) and redirections
 
 ## 🚀 Usage
 ./pipex file1 "cmd1" "cmd2" file2
+
 -> Equivalent to: < file1 cmd1 | cmd2 > file2
     
